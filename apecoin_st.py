@@ -36,8 +36,7 @@ def main():
     
     st.markdown(
     """
-    # **Crypto Portfolio Tracker**
-    A simple cryptocurrency app that tracks your porfolio. From [Monsieur Calcifer]
+    # **Apecoin Supply Distribution**
     """
     )
     
