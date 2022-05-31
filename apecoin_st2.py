@@ -13,6 +13,22 @@ def load_data():
 
     ape = pd.read_csv(DATA_URL).drop(columns=['Month'])
                
+    return ape
+
+## STREAMLIT CONFIG
+
+def main():
+    
+    st.markdown(
+    """
+    # **Apecoin Tokenomics**
+    """
+    )
+    
+    ape = load_data()
+    
+    ## DATA WRANGLING
+    
     ape.Date = pd.to_datetime(ape['Date'], infer_datetime_format=True)
     ape = ape.set_index('Date')
     
@@ -27,20 +43,6 @@ def load_data():
     ape['Non-Insiders'] = ape[['BAYC Holders', 'Jane Goodall L. Foundation']].sum(axis=1)
     
     in_nonin_final_dist = ape[['Insiders', 'Non-Insiders']].iloc[-1]
-    
-    return ape, ape_holders, token_final_dist, in_nonin_final_dist
-
-## STREAMLIT CONFIG
-
-def main():
-    
-    st.markdown(
-    """
-    # **Apecoin Tokenomics**
-    """
-    )
-    
-    ape, ape_holders, token_final_dist, in_nonin_final_dist = load_data()
     
     option = st.selectbox(
      'What kinda chart do you want to see?',
