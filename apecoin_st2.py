@@ -55,21 +55,21 @@ def main():
         fig.update_traces(textinfo='percent+label') # remove to show only % label on chart
         fig.update_layout(title_text=f'{token_name} Allocation', title_x=0.5)
         
-        st.plotly_chart(fig, use_container_width=False)
+        st.plotly_chart(fig, use_container_width=True)
         
         # stacked area chart of supply distribution
-        fig = px.area(ape_holders, width=800, height=400)
+        fig = px.area(ape_holders)
         fig.update_layout(
         xaxis_title='Date',
         yaxis_title='Token Supply',
         legend_title='Holders',
         plot_bgcolor= 'rgba(0, 0, 0, 0)')
 
-        st.plotly_chart(fig, use_container_width=False)
+        st.plotly_chart(fig, use_container_width=True)
         
         # Evolution of supply distribution %
         fig = px.area(ape.drop(columns=['Total', 'New Supply', 'Annual Inflation']),
-                    title=f"{token_name} Supply %", width=800, height=400, 
+                    title=f"{token_name} Supply %",
                     groupnorm='fraction')
         fig.update_layout(
             yaxis=dict(
@@ -91,7 +91,7 @@ def main():
             title_x=0.4
         )
         
-        st.plotly_chart(fig, use_container_width=False)
+        st.plotly_chart(fig, use_container_width=True)
         
     elif option == 'Insiders vs Non-Insiders':
         
@@ -105,7 +105,7 @@ def main():
         st.plotly_chart(fig, use_container_width=True)
 
         # stacked area chart of supply distribution
-        fig = px.area(ape[['Insiders', 'Non-Insiders']], width=800, height=400)
+        fig = px.area(ape[['Insiders', 'Non-Insiders']])
         fig.update_layout(
         xaxis_title='Date',
         yaxis_title='Token Supply',
@@ -113,11 +113,11 @@ def main():
         plot_bgcolor= 'rgba(0, 0, 0, 0)',
         )
 
-        st.plotly_chart(fig, use_container_width=False)
+        st.plotly_chart(fig, use_container_width=True)
                 
         # Evolution of supply distribution %
         fig = px.area(ape[['Insiders', 'Non-Insiders']],
-                    title=f"{token_name} Supply %", width=800, height=400, 
+                    title=f"{token_name} Supply %",
                     groupnorm='fraction')
         fig.update_layout(
             yaxis=dict(
@@ -139,7 +139,7 @@ def main():
             title_x=0.4
         )
         
-        st.plotly_chart(fig, use_container_width=False)
+        st.plotly_chart(fig, use_container_width=True)
 
     #new and cumulative supply combined 
 
@@ -192,7 +192,7 @@ def main():
         title_x=0.5
     )
 
-    st.plotly_chart(fig, use_container_width=False)
+    st.plotly_chart(fig, use_container_width=True)
     
 if __name__ == "__main__":
     st.set_page_config(
