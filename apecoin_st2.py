@@ -8,24 +8,10 @@ import plotly.graph_objects as go
 DATA_URL = 'https://raw.githubusercontent.com/kodama222/jarvis/main/data/apecoin_distribution.csv'
 DATA_PATH = '/Users/danielroyo2227/kodama/kodama222/jarvis/data/apecoin_distribution.csv'
 
-@st.cache
+#@st.cache
 def load_data():
 
     ape = pd.read_csv(DATA_URL).drop(columns=['Month'])
-               
-    return ape
-
-## STREAMLIT CONFIG
-
-def main():
-    
-    st.markdown(
-    """
-    # **Apecoin Tokenomics**
-    """
-    )
-    
-    ape = load_data()
     
     ## DATA WRANGLING
     
@@ -43,11 +29,25 @@ def main():
     ape['Non-Insiders'] = ape[['BAYC Holders', 'Jane Goodall L. Foundation']].sum(axis=1)
     
     in_nonin_final_dist = ape[['Insiders', 'Non-Insiders']].iloc[-1]
+               
+    return ape, ape_holders, token_final_dist, in_nonin_final_dist
+
+## STREAMLIT CONFIG
+
+def main():
+    
+    st.markdown(
+    """
+    # **Apecoin Tokenomics**
+    """
+    )
     
     option = st.selectbox(
      'What kinda chart do you want to see?',
      ('All Holders', 'Insiders vs Non-Insiders'))
     
+    ape, ape_holders, token_final_dist, in_nonin_final_dist = load_data()
+
     token_name = "APE"
 
     if option == 'All Holders':
