@@ -55,7 +55,7 @@ def main():
         fig.update_traces(textinfo='percent+label') # remove to show only % label on chart
         fig.update_layout(title_text=f'{token_name} Allocation', title_x=0.5)
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=False)
         
         # stacked area chart of supply distribution
         fig = px.area(ape_holders)
@@ -65,7 +65,7 @@ def main():
         legend_title='Holders',
         plot_bgcolor= 'rgba(0, 0, 0, 0)')
 
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=False)
         
         # Evolution of supply distribution %
         fig = px.area(ape.drop(columns=['Total', 'New Supply', 'Annual Inflation']),
@@ -91,7 +91,7 @@ def main():
             title_x=0.4
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=False)
         
     elif option == 'Insiders vs Non-Insiders':
         
@@ -113,7 +113,7 @@ def main():
         plot_bgcolor= 'rgba(0, 0, 0, 0)',
         )
 
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=False)
                 
         # Evolution of supply distribution %
         fig = px.area(ape[['Insiders', 'Non-Insiders']],
@@ -139,7 +139,7 @@ def main():
             title_x=0.4
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=False)
 
     #new and cumulative supply combined 
 
@@ -192,7 +192,7 @@ def main():
         title_x=0.5
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=False)
     
 if __name__ == "__main__":
     st.set_page_config(
