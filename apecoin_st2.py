@@ -36,7 +36,7 @@ def main():
     
     st.markdown(
     """
-    # **Apecoin Supply Distribution**
+    # **Apecoin Tokenomics**
     """
     )
     
@@ -58,7 +58,7 @@ def main():
         st.plotly_chart(fig, use_container_width=False)
         
         # stacked area chart of supply distribution
-        fig = px.area(ape_holders)
+        fig = px.area(ape_holders, width=800, height=400)
         fig.update_layout(
         xaxis_title='Date',
         yaxis_title='Token Supply',
@@ -69,7 +69,7 @@ def main():
         
         # Evolution of supply distribution %
         fig = px.area(ape.drop(columns=['Total', 'New Supply', 'Annual Inflation']),
-                    title=f"{token_name} Supply %",
+                    title=f"{token_name} Supply %", width=800, height=400, 
                     groupnorm='fraction')
         fig.update_layout(
             yaxis=dict(
@@ -105,7 +105,7 @@ def main():
         st.plotly_chart(fig, use_container_width=True)
 
         # stacked area chart of supply distribution
-        fig = px.area(ape[['Insiders', 'Non-Insiders']])
+        fig = px.area(ape[['Insiders', 'Non-Insiders']], width=800, height=400)
         fig.update_layout(
         xaxis_title='Date',
         yaxis_title='Token Supply',
@@ -117,7 +117,7 @@ def main():
                 
         # Evolution of supply distribution %
         fig = px.area(ape[['Insiders', 'Non-Insiders']],
-                    title=f"{token_name} Supply %",
+                    title=f"{token_name} Supply %", width=800, height=400, 
                     groupnorm='fraction')
         fig.update_layout(
             yaxis=dict(
