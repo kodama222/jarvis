@@ -143,17 +143,17 @@ def main():
 
     #new and cumulative supply combined 
 
-    data.iloc[0, 9] = 0        # replace '-' with 0 in first row
-    data = data.astype({"New Supply": float})
+    ape.iloc[0, 9] = 0        # replace '-' with 0 in first row
+    ape = ape.astype({"New Supply": float})
 
     fig = go.Figure()
 
     fig.add_trace(go.Bar(
-        x=data.index, y=data['New Supply'],
+        x=ape.index, y=ape['New Supply'],
         name="New Monthly Supply"
     ))
     fig.add_trace(go.Scatter(
-        x=data.index, y=data['New Supply'].cumsum(),
+        x=ape.index, y=ape['New Supply'].cumsum(),
         name="Cumulative New Supply",
         yaxis="y2"
     ))
