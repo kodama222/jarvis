@@ -47,11 +47,8 @@ def main():
      'What token do you want to know more about?',
      ('GMT', 'SXP'))
     
-    if token == 'SXP':
-        df = data['SXP']
-        
-    elif token == 'GMT':
-        
+    all_final_dist = data_dict[token].drop(columns=['Insiders', 'Non-Insiders']).iloc[-1]
+    in_vs_nonin_final = data_dict[token][['Insiders', 'Non-Insiders']].iloc[-1]
     
     option = st.sidebar.selectbox(
      'What kinda chart do you want to see?',
@@ -59,9 +56,96 @@ def main():
     
     if option == 'All Holders':
         
+        # plotly pie chart of final token distribution
+        fig = go.Figure(data=[go.Pie(labels=all_final_dist.index, values=all_final_dist.values)])
+        fig.update_traces(textinfo='percent+label') # remove to show only % label on chart
+        fig.update_layout(title_text=f'{token} Allocation', title_x=0.5)
+        
+        st.plotly_chart(fig, use_container_width=True)
+        
+        # stacked area chart of supply distribution
+        fig = px.area(data_dict[token].drop(columns=['Insiders', 'Non-Insiders']))
+        fig.update_layout(
+        xaxis_title='Date',
+        yaxis_title='Token Supply',
+        legend_title='Holders',
+        plot_bgcolor= 'rgba(0, 0, 0, 0)')
+
+        st.plotly_chart(fig, use_container_width=True)
+        
+        # Evolution of supply distribution %
+        fig = px.area(data_dict[token].drop(columns=['Total', 'New Supply', 'Annual Inflation']),
+                    title=f"{token} Supply %",
+                    groupnorm='fraction')
+        fig.update_layout(
+            yaxis=dict(
+                    showgrid=True, 
+                    gridcolor='rgba(166, 166, 166, 0.35)'),
+            yaxis_tickformat=',.0%',
+            xaxis=dict(
+                    showgrid=False, 
+                    gridcolor='rgba(166, 166, 166, 0.35)'),
+            xaxis_title='Date',
+            yaxis_title='Token Supply',
+            
+            legend_title='Holders',
+            plot_bgcolor= 'rgba(0, 0, 0, 0)',
+
+            autosize=False,
+            width=1000,
+            height=550,
+            title_x=0.4
+        )
+        
+        st.plotly_chart(fig, use_container_width=True)
+        
         return
     
     elif option == 'Insiders vs Non-Insiders':
+        
+        # plotly pie chart of final token distribution
+        fig = go.Figure(data=[go.Pie(labels=in_vs_nonin_final.index, values=in_vs_nonin_final.values)])
+        fig.update_traces(textinfo='percent+label') # remove to show only % label on chart
+        fig.update_layout(title_text=f'{token} Allocation', title_x=0.5)
+
+        st.plotly_chart(fig, use_container_width=True)
+
+        # stacked area chart of supply distribution
+        fig = px.area(data_dict[token][['Insiders', 'Non-Insiders']])
+        fig.update_layout(
+        xaxis_title='Date',
+        yaxis_title='Token Supply',
+        legend_title='Holders',
+        plot_bgcolor= 'rgba(0, 0, 0, 0)',
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
+                
+        # Evolution of supply distribution %
+        fig = px.area(data_dict[token][['Insiders', 'Non-Insiders']],
+                    title=f"{token} Supply %",
+                    groupnorm='fraction')
+        fig.update_layout(
+            yaxis=dict(
+                    showgrid=True, 
+                    gridcolor='rgba(166, 166, 166, 0.35)'),
+            yaxis_tickformat=',.0%',
+            xaxis=dict(
+                    showgrid=False, 
+                    gridcolor='rgba(166, 166, 166, 0.35)'),
+            xaxis_title='Date',
+            yaxis_title='Token Supply',
+            
+            legend_title='Holders',
+            plot_bgcolor= 'rgba(0, 0, 0, 0)',
+
+            autosize=False,
+            width=1000,
+            height=550,
+            title_x=0.4
+        )
+        
+        st.plotly_chart(fig, use_container_width=True)
         
         return
 
