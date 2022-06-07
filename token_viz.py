@@ -18,7 +18,7 @@ for u in urls:
     
     # take file name
     f0 = os.path.basename(u)
-    f1 = f0.rsplit('.')[0]
+    f1 = f0.rsplit('.')[0].upper()
     
     # read the csv file      
     df = pd.read_csv(u)
