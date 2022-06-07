@@ -74,7 +74,7 @@ def main():
         st.plotly_chart(fig, use_container_width=True)
         
         # Evolution of supply distribution %
-        fig = px.area(data_dict[token].drop(columns=['Total', 'New Supply', 'Annual Inflation']),
+        fig = px.area(data_dict[token].drop(columns=['insiders', 'non-insiders']),
                     title=f"{token} Supply %",
                     groupnorm='fraction')
         fig.update_layout(
