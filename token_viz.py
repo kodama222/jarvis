@@ -39,7 +39,7 @@ def main():
     
     st.markdown(
     """
-    # **Token Supply Distrbution**
+    # **Token Supply Distribution**
     """
     )
     
@@ -47,8 +47,8 @@ def main():
      'What token do you want to know more about?',
      ('GMT', 'SXP'))
     
-    all_final_dist = data_dict[token].drop(columns=['Insiders', 'Non-Insiders']).iloc[-1]
-    in_vs_nonin_final = data_dict[token][['Insiders', 'Non-Insiders']].iloc[-1]
+    all_final_dist = data_dict[token].drop(columns=['insiders', 'non-insiders']).iloc[-1]
+    in_vs_nonin_final = data_dict[token][['insiders', 'non-insiders']].iloc[-1]
     
     option = st.sidebar.selectbox(
      'What kinda chart do you want to see?',
@@ -64,7 +64,7 @@ def main():
         st.plotly_chart(fig, use_container_width=True)
         
         # stacked area chart of supply distribution
-        fig = px.area(data_dict[token].drop(columns=['Insiders', 'Non-Insiders']))
+        fig = px.area(data_dict[token].drop(columns=['insiders', 'non-insiders']))
         fig.update_layout(
         xaxis_title='Date',
         yaxis_title='Token Supply',
@@ -111,7 +111,7 @@ def main():
         st.plotly_chart(fig, use_container_width=True)
 
         # stacked area chart of supply distribution
-        fig = px.area(data_dict[token][['Insiders', 'Non-Insiders']])
+        fig = px.area(data_dict[token][['insiders', 'non-insiders']])
         fig.update_layout(
         xaxis_title='Date',
         yaxis_title='Token Supply',
@@ -122,7 +122,7 @@ def main():
         st.plotly_chart(fig, use_container_width=True)
                 
         # Evolution of supply distribution %
-        fig = px.area(data_dict[token][['Insiders', 'Non-Insiders']],
+        fig = px.area(data_dict[token][['insiders', 'non-insiders']],
                     title=f"{token} Supply %",
                     groupnorm='fraction')
         fig.update_layout(
@@ -151,6 +151,6 @@ def main():
 
 if __name__ == "__main__":
     st.set_page_config(
-        page_title='Apecoin Supply Distribution Tracker'
+        page_title='Supply Distribution Tracker'
     )
     main()
