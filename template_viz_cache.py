@@ -1,3 +1,4 @@
+from math import dist
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -22,6 +23,7 @@ def burn(x, df_distribution, df_data):
 
 @st.cache
 def read_data():
+
     capcoin_url = (
         "https://raw.githubusercontent.com/kodama222/jarvis/main/data/capcoin.csv"
     )
@@ -99,10 +101,12 @@ def read_data():
         supply_dict[f1] = supply
         totalsupply_dict[f1] = totalsupply
 
+    return data_dict, dist_dict, supply_dict, totalsupply_dict
+
 
 def main():
 
-    read_data()
+    data_dict, dist_dict, supply_dict, totalsupply_dict = read_data()
 
     st.markdown(
         """
