@@ -95,9 +95,11 @@ def main():
     )
 
     all_initial_allo = (
-        data_dict[token].drop(columns=["devs", "investors", "plebs"]).iloc[-1]
+        totalsupply_dict[token].drop(columns=["devs", "investors", "plebs"]).iloc[-1]
     )
-    parties_initial_allo = data_dict[token][["devs", "investors", "plebs"]].iloc[-1]
+    parties_initial_allo = totalsupply_dict[token][["devs", "investors", "plebs"]].iloc[
+        -1
+    ]
 
     option = st.sidebar.selectbox(
         "What kinda chart do you want to see?", ("All Holders", "Different Parties")
@@ -117,7 +119,9 @@ def main():
         st.plotly_chart(fig, use_container_width=True)
 
         # stacked area chart of supply distribution
-        fig = px.area(data_dict[token].drop(columns=["devs", "investors", "plebs"]))
+        fig = px.area(
+            totalsupply_dict[token].drop(columns=["devs", "investors", "plebs"])
+        )
         fig.update_layout(
             xaxis_title="Date",
             yaxis_title="Token Supply",
@@ -129,7 +133,7 @@ def main():
 
         # Evolution of supply distribution %
         fig = px.area(
-            data_dict[token].drop(columns=["devs", "investors", "plebs"]),
+            totalsupply_dict[token].drop(columns=["devs", "investors", "plebs"]),
             title=f"{token} Supply %",
             groupnorm="fraction",
         )
@@ -170,7 +174,7 @@ def main():
         st.plotly_chart(fig, use_container_width=True)
 
         # stacked area chart of supply distribution
-        fig = px.area(data_dict[token][["devs", "investors", "plebs"]])
+        fig = px.area(totalsupply_dict[token][["devs", "investors", "plebs"]])
         fig.update_layout(
             xaxis_title="Date",
             yaxis_title="Token Supply",
@@ -182,7 +186,7 @@ def main():
 
         # Evolution of supply distribution %
         fig = px.area(
-            data_dict[token][["devs", "investors", "plebs"]],
+            totalsupply_dict[token][["devs", "investors", "plebs"]],
             title=f"{token} Supply %",
             groupnorm="fraction",
         )
