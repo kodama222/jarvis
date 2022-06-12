@@ -1,0 +1,20 @@
+DATA,,,,,,,,,,
+token_name,token_symbol,start_date,start_tokens,emission_schedule,emission_type,emission_incentive,,,,
+quartercoin,quarter,19/02/2020,500000,90D,"inflationary, burn",staking,,,,
+DISTRIBUTION,,,,,,,,,,
+entity,team1,treasury,presale,investor1,investor2,investor3,public,unsold,burn,inflation
+descriptor,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,contract,contract
+address,0xABCD....1234,0xABCD....1235,0xABCD....1236,0xABCD....1237,0xABCD....1238,0xABCD....1239,0xABCD....1240,0xABCD....1241,0xABCD....1242,0xWXYZ….0987
+type,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,amount
+group,treasury,treasury,public,investor,investor,public,public,public,burn,public
+emission,unlock,unlock,unlock,unlock,unlock,unlock,unlock,stake,remove,stake
+intialallocation,12,8,10,5,2.5,1,25,36.5,0,0
+t000,3,0,2.5,1,0,0,25,0.5,0,2500
+t001,6,0,5,2,0,0.25,25,1,0,5000
+t002,9,0,7.5,3,0,0.5,25,1.5,0,7500
+t003,12,0,10,4,0,0.75,25,2,5000,10000
+t004,12,0,10,5,0.5,1,25,2.5,0,12500
+t005,12,0,10,5,1,1,25,3,0,15000
+t006,12,0,10,5,1.5,1,25,3.5,0,17500
+t007,12,0,10,5,2,1,25,4,5000,20000
+t008,12,0,10,5,2.5,1,25,4.5,0,22500

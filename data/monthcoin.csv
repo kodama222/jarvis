@@ -1,0 +1,24 @@
+DATA,,,,,,,,,
+token_name,token_symbol,start_date,start_tokens,emission_schedule,emission_type,emission_incentive,,,
+monthcoin,month,25/10/2021,10000,30D,inflationary,staking,,,
+DISTRIBUTION,,,,,,,,,
+entity,team1,team2,treasury,presale,investor1,investor2,public,unsold,inflation
+descriptor,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,contract
+address,0xABCD....1234,0xABCD....1235,0xABCD....1236,0xABCD....1237,0xABCD....1238,0xABCD....1239,0xABCD....1240,0xABCD....1241,0xWXYZ….0987
+type,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage
+group,treasury,treasury,treasury,public,investor,investor,public,public,public
+emission,unlock,unlock,unlock,unlock,unlock,unlock,unlock,stake,stake
+initial,5,5,5,5,2.5,2.5,15,65,0
+t000,0,0,0,5,0,0,15,1.5,0.5
+t001,0.5,0,0,5,0,0,15,3,1
+t002,1,0,0,5,0.5,0,15,4.5,1.5
+t003,1.5,0,0,5,1,0,15,6,2
+t004,2,0,0,5,1.5,0.5,15,7.5,2.5
+t005,2.5,0,0,5,2,1,15,9,3
+t006,3,0,0,5,2.5,1.5,15,10.5,3.5
+t007,3.5,0,0,5,2.5,2,15,12,4
+t008,4,0,0,5,2.5,2.5,15,13.5,4.5
+t009,4.5,0,0,5,2.5,2.5,15,15,5
+t010,5,0,0,5,2.5,2.5,15,16.5,5.5
+t011,5,2.5,0,5,2.5,2.5,15,18,6
+t012,5,5,0,5,2.5,2.5,15,19.5,6.5
