@@ -90,7 +90,8 @@ def main():
     )
 
     token = st.sidebar.selectbox(
-        "What token do you want to know more about?", ("GMT", "SXP")
+        "What token do you want to know more about?",
+        ("GMT", "CAPCOIN", "QUARTERCOIN", "MONTHCOIN", "MATIC"),
     )
 
     all_initial_allo = (
