@@ -30,6 +30,13 @@ def distribution_type(x, df_distribution, df_data):
         return x / df_data.start_tokens[0] * 100
 
 
+def burn(x, df_distribution, df_data):
+    if df_distribution[x.name][4] == "burn":
+        return x
+    else:
+        return x
+
+
 for u in urls:
 
     # take file name
@@ -53,6 +60,10 @@ for u in urls:
     supply = supply.set_index(dates).drop(columns="entity")  # set index as date
     supply = supply.astype(float)
     supply = supply.apply(lambda x: distribution_type(x, df_distribution, df_data))
+
+    for k in supply.keys():
+        if k == "burn":
+            supply.treasury = supply.treasury - supply.burn
 
     # classify entities
     df_distribution = df_distribution.drop(columns="entity")
@@ -155,7 +166,7 @@ def main():
 
         return
 
-    elif option == "Insiders vs Non-Insiders":
+    elif option == "Different Parties":
 
         # plotly pie chart of final token distribution
         fig = go.Figure(
