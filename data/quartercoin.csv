@@ -5,7 +5,7 @@ DISTRIBUTION,,,,,,,,,,
 entity,team1,treasury,presale,investor1,investor2,investor3,public,unsold,burn,inflation
 descriptor,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,contract,contract
 address,0xABCD....1234,0xABCD....1235,0xABCD....1236,0xABCD....1237,0xABCD....1238,0xABCD....1239,0xABCD....1240,0xABCD....1241,0xABCD....1242,0xWXYZ….0987
-type,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,amount
+type,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,amount,amount
 group,treasury,treasury,public,investor,investor,public,public,public,burn,public
 emission,unlock,unlock,unlock,unlock,unlock,unlock,unlock,stake,remove,stake
 intialallocation,12,8,10,5,2.5,1,25,36.5,0,0
