@@ -243,16 +243,16 @@ def main():
 
     fig.add_trace(
         go.Bar(
-            x=totalsupply_dict.index,
+            x=totalsupply_dict[token].index,
             y=totalsupply_dict["new_supply"] * 100,
-            name="New Monthly Supply [%]",
+            name=f"{token} New Monthly Supply",
         )
     )
     fig.add_trace(
         go.Scatter(
-            x=totalsupply_dict.index,
+            x=totalsupply_dict[token].index,
             y=totalsupply_dict["new_supply"].cumsum() * 100,
-            name="Cumulative New Supply [%]",
+            name=f"{token} Cumulative New Supply",
             yaxis="y2",
         )
     )
@@ -260,7 +260,7 @@ def main():
     fig.update_xaxes(tickangle=45)
     fig.update_layout(
         yaxis=dict(
-            title="New Monthly Supply",
+            title=f"{token} New Monthly Supply [%]",
             titlefont=dict(color="#1f77b4"),
             tickfont=dict(color="#1f77b4"),
             autotypenumbers="convert types",
@@ -268,7 +268,7 @@ def main():
             gridcolor="rgba(166, 166, 166, 0.35)",
         ),
         yaxis2=dict(
-            title="Cumulative New Supply",
+            title=f"{token} Cumulative New Supply [%]",
             titlefont=dict(color="#d62728"),
             tickfont=dict(color="#d62728"),
             anchor="x",
