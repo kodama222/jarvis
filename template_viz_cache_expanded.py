@@ -183,8 +183,6 @@ def main():
 
         st.plotly_chart(fig, use_container_width=True)
 
-        return
-
     elif option == "Different Parties":
 
         # plotly pie chart of final token distribution
@@ -236,8 +234,6 @@ def main():
 
         st.plotly_chart(fig, use_container_width=True)
 
-        return
-
     # combined
     fig = go.Figure()
 
@@ -284,6 +280,8 @@ def main():
     )
 
     st.plotly_chart(fig, use_container_width=True)
+
+    return
 
 
 if __name__ == "__main__":
