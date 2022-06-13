@@ -244,14 +244,14 @@ def main():
     fig.add_trace(
         go.Bar(
             x=totalsupply_dict[token].index,
-            y=totalsupply_dict["new_supply"] * 100,
+            y=totalsupply_dict[token]["new_supply"] * 100,
             name=f"{token} New Monthly Supply",
         )
     )
     fig.add_trace(
         go.Scatter(
             x=totalsupply_dict[token].index,
-            y=totalsupply_dict["new_supply"].cumsum() * 100,
+            y=totalsupply_dict[token]["new_supply"].cumsum() * 100,
             name=f"{token} Cumulative New Supply",
             yaxis="y2",
         )
