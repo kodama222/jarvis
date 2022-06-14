@@ -21,6 +21,25 @@ def burn(x, df_distribution, df_data):
         return x
 
 
+def inflation(df):
+
+    s0 = df.total_monthly[0]
+    t0 = df.index[0]
+    l = [0]
+    j = 0
+
+    for i in range(1, len(df)):
+        if (df.index[i] - t0) < pd.Timedelta(days=365):
+            l.append((df.total_monthly[i] - s0) / s0 * 12 / i)
+            j += 1
+        else:
+            l.append(
+                (df.total_monthly[i] - df.total_monthly[i - j])
+                / df.total_monthly[i - j]
+            )
+    return np.array(l) * 100
+
+
 @st.cache
 def read_data():
 
@@ -99,6 +118,8 @@ def read_data():
             axis=1
         )
         totalsupply["new_supply"] = totalsupply.total_monthly.pct_change()
+
+        totalsupply["annual_inflation"] = inflation(totalsupply)
 
         # create dict entry with dataframe as value and filename as key
         data_dict[f1] = df_data
@@ -247,8 +268,8 @@ def main():
     fig.add_trace(
         go.Scatter(
             x=totalsupply_dict[token].index,
-            y=totalsupply_dict[token]["new_supply"].cumsum() * 100,
-            name=f"{token} Cumulative New Supply",
+            y=totalsupply_dict[token]["annual_inflation"],
+            name=f"{token} Annual Inflation",
             yaxis="y2",
         )
     )
@@ -264,7 +285,7 @@ def main():
             gridcolor="rgba(166, 166, 166, 0.35)",
         ),
         yaxis2=dict(
-            title=f"{token} Cumulative New Supply [%]",
+            title=f"{token} Annual Inflation [%]",
             titlefont=dict(color="#d62728"),
             tickfont=dict(color="#d62728"),
             anchor="x",
