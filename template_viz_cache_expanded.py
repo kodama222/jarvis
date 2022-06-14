@@ -140,7 +140,7 @@ def main():
     )
 
     all_initial_allo = (totalsupply_dict[token].drop(
-        columns=["devs", "investors", "plebs", 'annual_inflation']).iloc[-1])
+        columns=["devs", "investors", "plebs", 'annual_inflation', 'total_monthly', 'new_supply']).iloc[-1])
     parties_initial_allo = totalsupply_dict[token][["devs", "investors", "plebs"]].iloc[-1]
 
     option = st.sidebar.selectbox(
@@ -162,7 +162,8 @@ def main():
 
         # stacked area chart of supply distribution
         fig = px.area(
-            totalsupply_dict[token].drop(columns=["devs", "investors", "plebs", 'annual_inflation'])
+            totalsupply_dict[token].drop(
+                columns=["devs", "investors", "plebs", 'annual_inflation', 'total_monthly', 'new_supply'])
         )
         fig.update_layout(
             xaxis_title="Date",
@@ -175,7 +176,8 @@ def main():
 
         # Evolution of supply distribution %
         fig = px.area(
-            totalsupply_dict[token].drop(columns=["devs", "investors", "plebs", 'annual_inflation']),
+            totalsupply_dict[token].drop(
+                columns=["devs", "investors", "plebs", 'annual_inflation', 'total_monthly', 'new_supply']),
             title=f"{token} Supply %",
             groupnorm="fraction",
         )
