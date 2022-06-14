@@ -83,7 +83,7 @@ def read_data():
         for k in supply.keys():
             if k == "burn":
                 supply.treasury = supply.treasury - supply.burn
-                supply = supply.drop(columns='burn')
+                
 
         # classify entities
         df_distribution = df_distribution.drop(columns="entity")
