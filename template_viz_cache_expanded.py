@@ -43,17 +43,11 @@ def inflation(df):
 @st.cache
 def read_data():
 
-    capcoin_url = (
-        "https://raw.githubusercontent.com/kodama222/jarvis/main/data/capcoin.csv"
-    )
+    capcoin_url = ("https://raw.githubusercontent.com/kodama222/jarvis/main/data/capcoin.csv")
     gmt_url = "https://raw.githubusercontent.com/kodama222/jarvis/main/data/gmt.csv"
     matic_url = "https://raw.githubusercontent.com/kodama222/jarvis/main/data/matic.csv"
-    monthcoin_url = (
-        "https://raw.githubusercontent.com/kodama222/jarvis/main/data/monthcoin.csv"
-    )
-    quartercoin_url = (
-        "https://raw.githubusercontent.com/kodama222/jarvis/main/data/quartercoin.csv"
-    )
+    monthcoin_url = ("https://raw.githubusercontent.com/kodama222/jarvis/main/data/monthcoin.csv")
+    quartercoin_url = ("https://raw.githubusercontent.com/kodama222/jarvis/main/data/quartercoin.csv")
 
     urls = [capcoin_url, gmt_url, matic_url, monthcoin_url, quartercoin_url]
 
@@ -145,12 +139,9 @@ def main():
         ("GMT", "CAPCOIN", "QUARTERCOIN", "MONTHCOIN", "MATIC"),
     )
 
-    all_initial_allo = (
-        totalsupply_dict[token].drop(columns=["devs", "investors", "plebs"]).iloc[-1]
-    )
-    parties_initial_allo = totalsupply_dict[token][["devs", "investors", "plebs"]].iloc[
-        -1
-    ]
+    all_initial_allo = (totalsupply_dict[token].drop(
+        columns=["devs", "investors", "plebs", 'annual_inflation']).iloc[-1])
+    parties_initial_allo = totalsupply_dict[token][["devs", "investors", "plebs"]].iloc[-1]
 
     option = st.sidebar.selectbox(
         "What kinda chart do you want to see?", ("All Holders", "Different Parties")
@@ -171,7 +162,7 @@ def main():
 
         # stacked area chart of supply distribution
         fig = px.area(
-            totalsupply_dict[token].drop(columns=["devs", "investors", "plebs"])
+            totalsupply_dict[token].drop(columns=["devs", "investors", "plebs", 'annual_inflation'])
         )
         fig.update_layout(
             xaxis_title="Date",
@@ -184,7 +175,7 @@ def main():
 
         # Evolution of supply distribution %
         fig = px.area(
-            totalsupply_dict[token].drop(columns=["devs", "investors", "plebs"]),
+            totalsupply_dict[token].drop(columns=["devs", "investors", "plebs", 'annual_inflation']),
             title=f"{token} Supply %",
             groupnorm="fraction",
         )
