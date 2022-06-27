@@ -8,14 +8,14 @@ import os
 
 
 def distribution_type(x, df_distribution, df_data):
-    if df_distribution[x.name][2] == "percentage":
+    if df_distribution[x.name][2] == 'percentage':
         return x
-    elif df_distribution[x.name][2] == "amount":
+    elif df_distribution[x.name][2] == 'amount':
         return x / df_data.start_tokens[0] * 100
 
 
 def burn(x, df_distribution, df_data):
-    if df_distribution[x.name][4] == "burn":
+    if df_distribution[x.name][4] == 'burn':
         return x
     else:
         return x
@@ -43,11 +43,13 @@ def inflation(df):
 @st.cache
 def read_data():
 
-    capcoin_url = ("https://raw.githubusercontent.com/kodama222/jarvis/main/data/capcoin.csv")
-    gmt_url = "https://raw.githubusercontent.com/kodama222/jarvis/main/data/gmt.csv"
-    matic_url = "https://raw.githubusercontent.com/kodama222/jarvis/main/data/matic.csv"
-    monthcoin_url = ("https://raw.githubusercontent.com/kodama222/jarvis/main/data/monthcoin.csv")
-    quartercoin_url = ("https://raw.githubusercontent.com/kodama222/jarvis/main/data/quartercoin.csv")
+    capcoin_url = 'https://raw.githubusercontent.com/kodama222/jarvis/main/data/capcoin.csv'
+    gmt_url = (
+        'https://raw.githubusercontent.com/kodama222/jarvis/main/data/gmt.csv'
+    )
+    matic_url = 'https://raw.githubusercontent.com/kodama222/jarvis/main/data/matic.csv'
+    monthcoin_url = 'https://raw.githubusercontent.com/kodama222/jarvis/main/data/monthcoin.csv'
+    quartercoin_url = 'https://raw.githubusercontent.com/kodama222/jarvis/main/data/quartercoin.csv'
 
     urls = [capcoin_url, gmt_url, matic_url, monthcoin_url, quartercoin_url]
 
@@ -60,7 +62,7 @@ def read_data():
 
         # take file name
         f0 = os.path.basename(u)
-        f1 = f0.rsplit(".")[0].upper()
+        f1 = f0.rsplit('.')[0].upper()
 
         ## READ DATA
         # general data
@@ -76,20 +78,23 @@ def read_data():
             periods=len(supply),
             freq=df_data.emission_schedule[0],
         )  # calculate datetime
-        supply = supply.set_index(dates).drop(columns="entity")  # set index as date
+        supply = supply.set_index(dates).drop(
+            columns='entity'
+        )  # set index as date
         supply = supply.astype(float)
-        supply = supply.apply(lambda x: distribution_type(x, df_distribution, df_data))
+        supply = supply.apply(
+            lambda x: distribution_type(x, df_distribution, df_data)
+        )
 
         for k in supply.keys():
-            if k == "burn":
+            if k == 'burn':
                 supply.treasury = supply.treasury - supply.burn
-                
 
         # classify entities
-        df_distribution = df_distribution.drop(columns="entity")
-        team = df_distribution.iloc[3] == "treasury"
-        investors = df_distribution.iloc[3] == "investor"
-        public = df_distribution.iloc[3] == "public"
+        df_distribution = df_distribution.drop(columns='entity')
+        team = df_distribution.iloc[3] == 'treasury'
+        investors = df_distribution.iloc[3] == 'investor'
+        public = df_distribution.iloc[3] == 'public'
 
         team_df = supply[supply.columns[team.values]]
         investors_df = supply[supply.columns[investors.values]]
@@ -106,15 +111,15 @@ def read_data():
             axis=1,
         )
         totalsupply = totalsupply.rename(
-            columns={0: "devs", 1: "investors", 2: "plebs"}
+            columns={0: 'devs', 1: 'investors', 2: 'plebs'}
         )
 
-        totalsupply["total_monthly"] = totalsupply[["devs", "investors", "plebs"]].sum(
-            axis=1
-        )
-        totalsupply["new_supply"] = totalsupply.total_monthly.pct_change()
+        totalsupply['total_monthly'] = totalsupply[
+            ['devs', 'investors', 'plebs']
+        ].sum(axis=1)
+        totalsupply['new_supply'] = totalsupply.total_monthly.pct_change()
 
-        totalsupply["annual_inflation"] = inflation(totalsupply)
+        totalsupply['annual_inflation'] = inflation(totalsupply)
 
         # create dict entry with dataframe as value and filename as key
         data_dict[f1] = df_data
@@ -136,41 +141,69 @@ def main():
     )
 
     token = st.sidebar.selectbox(
-        "What token do you want to know more about?",
-        ("GMT", "CAPCOIN", "QUARTERCOIN", "MONTHCOIN", "MATIC"),
+        'What token do you want to know more about?',
+        ('GMT', 'CAPCOIN', 'QUARTERCOIN', 'MONTHCOIN', 'MATIC'),
     )
 
-    all_initial_allo = (totalsupply_dict[token].drop(
-        columns=["devs", "investors", "plebs", 'annual_inflation', 'total_monthly', 'new_supply']).iloc[-1])
-    parties_initial_allo = totalsupply_dict[token][["devs", "investors", "plebs"]].iloc[-1]
+    all_initial_allo = (
+        totalsupply_dict[token]
+        .drop(
+            columns=[
+                'devs',
+                'investors',
+                'plebs',
+                'annual_inflation',
+                'total_monthly',
+                'new_supply',
+            ]
+        )
+        .iloc[-1]
+    )
+    parties_initial_allo = totalsupply_dict[token][
+        ['devs', 'investors', 'plebs']
+    ].iloc[-1]
 
     option = st.sidebar.selectbox(
-        "What kinda chart do you want to see?", ("All Holders", "Different Parties")
+        'What kinda chart do you want to see?',
+        ('All Holders', 'Different Parties'),
     )
 
-    if option == "All Holders":
+    if option == 'All Holders':
 
         # plotly pie chart of final token distribution
         fig = go.Figure(
-            data=[go.Pie(labels=all_initial_allo.index, values=all_initial_allo.values)]
+            data=[
+                go.Pie(
+                    labels=all_initial_allo.index,
+                    values=all_initial_allo.values,
+                )
+            ]
         )
         fig.update_traces(
-            textinfo="percent+label"
+            textinfo='percent+label'
         )  # remove to show only % label on chart
-        fig.update_layout(title_text=f"{token} Allocation", title_x=0.5)
+        fig.update_layout(title_text=f'{token} Allocation', title_x=0.5)
 
         st.plotly_chart(fig, use_container_width=True)
 
         # stacked area chart of supply distribution
         fig = px.area(
             totalsupply_dict[token].drop(
-                columns=["devs", "investors", "plebs", 'annual_inflation', 'total_monthly', 'new_supply'])
+                columns=[
+                    'devs',
+                    'investors',
+                    'plebs',
+                    'annual_inflation',
+                    'total_monthly',
+                    'new_supply',
+                ]
+            )
         )
         fig.update_layout(
-            xaxis_title="Date",
-            yaxis_title="Token Supply",
-            legend_title="Holders",
-            plot_bgcolor="rgba(0, 0, 0, 0)",
+            xaxis_title='Date',
+            yaxis_title='Token Supply',
+            legend_title='Holders',
+            plot_bgcolor='rgba(0, 0, 0, 0)',
         )
 
         st.plotly_chart(fig, use_container_width=True)
@@ -178,18 +211,26 @@ def main():
         # Evolution of supply distribution %
         fig = px.area(
             totalsupply_dict[token].drop(
-                columns=["devs", "investors", "plebs", 'annual_inflation', 'total_monthly', 'new_supply']),
-            title=f"{token} Supply %",
-            groupnorm="fraction",
+                columns=[
+                    'devs',
+                    'investors',
+                    'plebs',
+                    'annual_inflation',
+                    'total_monthly',
+                    'new_supply',
+                ]
+            ),
+            title=f'{token} Supply %',
+            groupnorm='fraction',
         )
         fig.update_layout(
-            yaxis=dict(showgrid=True, gridcolor="rgba(166, 166, 166, 0.35)"),
-            yaxis_tickformat=",.0%",
-            xaxis=dict(showgrid=False, gridcolor="rgba(166, 166, 166, 0.35)"),
-            xaxis_title="Date",
-            yaxis_title="Token Supply",
-            legend_title="Holders",
-            plot_bgcolor="rgba(0, 0, 0, 0)",
+            yaxis=dict(showgrid=True, gridcolor='rgba(166, 166, 166, 0.35)'),
+            yaxis_tickformat=',.0%',
+            xaxis=dict(showgrid=False, gridcolor='rgba(166, 166, 166, 0.35)'),
+            xaxis_title='Date',
+            yaxis_title='Token Supply',
+            legend_title='Holders',
+            plot_bgcolor='rgba(0, 0, 0, 0)',
             autosize=False,
             width=1000,
             height=550,
@@ -198,7 +239,7 @@ def main():
 
         st.plotly_chart(fig, use_container_width=True)
 
-    elif option == "Different Parties":
+    elif option == 'Different Parties':
 
         # plotly pie chart of final token distribution
         fig = go.Figure(
@@ -210,37 +251,37 @@ def main():
             ]
         )
         fig.update_traces(
-            textinfo="percent+label"
+            textinfo='percent+label'
         )  # remove to show only % label on chart
-        fig.update_layout(title_text=f"{token} Allocation", title_x=0.5)
+        fig.update_layout(title_text=f'{token} Allocation', title_x=0.5)
 
         st.plotly_chart(fig, use_container_width=True)
 
         # stacked area chart of supply distribution
-        fig = px.area(totalsupply_dict[token][["devs", "investors", "plebs"]])
+        fig = px.area(totalsupply_dict[token][['devs', 'investors', 'plebs']])
         fig.update_layout(
-            xaxis_title="Date",
-            yaxis_title="Token Supply",
-            legend_title="Holders",
-            plot_bgcolor="rgba(0, 0, 0, 0)",
+            xaxis_title='Date',
+            yaxis_title='Token Supply',
+            legend_title='Holders',
+            plot_bgcolor='rgba(0, 0, 0, 0)',
         )
 
         st.plotly_chart(fig, use_container_width=True)
 
         # Evolution of supply distribution %
         fig = px.area(
-            totalsupply_dict[token][["devs", "investors", "plebs"]],
-            title=f"{token} Supply %",
-            groupnorm="fraction",
+            totalsupply_dict[token][['devs', 'investors', 'plebs']],
+            title=f'{token} Supply %',
+            groupnorm='fraction',
         )
         fig.update_layout(
-            yaxis=dict(showgrid=True, gridcolor="rgba(166, 166, 166, 0.35)"),
-            yaxis_tickformat=",.0%",
-            xaxis=dict(showgrid=False, gridcolor="rgba(166, 166, 166, 0.35)"),
-            xaxis_title="Date",
-            yaxis_title="Token Supply",
-            legend_title="Holders",
-            plot_bgcolor="rgba(0, 0, 0, 0)",
+            yaxis=dict(showgrid=True, gridcolor='rgba(166, 166, 166, 0.35)'),
+            yaxis_tickformat=',.0%',
+            xaxis=dict(showgrid=False, gridcolor='rgba(166, 166, 166, 0.35)'),
+            xaxis_title='Date',
+            yaxis_title='Token Supply',
+            legend_title='Holders',
+            plot_bgcolor='rgba(0, 0, 0, 0)',
             autosize=False,
             width=1000,
             height=550,
@@ -255,39 +296,39 @@ def main():
     fig.add_trace(
         go.Bar(
             x=totalsupply_dict[token].index,
-            y=totalsupply_dict[token]["new_supply"] * 100,
-            name=f"{token} New Monthly Supply",
+            y=totalsupply_dict[token]['new_supply'] * 100,
+            name=f'{token} New Monthly Supply',
         )
     )
     fig.add_trace(
         go.Scatter(
             x=totalsupply_dict[token].index,
-            y=totalsupply_dict[token]["annual_inflation"],
-            name=f"{token} Annual Inflation",
-            yaxis="y2",
+            y=totalsupply_dict[token]['annual_inflation'],
+            name=f'{token} Annual Inflation',
+            yaxis='y2',
         )
     )
 
     fig.update_xaxes(tickangle=45)
     fig.update_layout(
         yaxis=dict(
-            title=f"{token} New Monthly Supply [%]",
-            titlefont=dict(color="#1f77b4"),
-            tickfont=dict(color="#1f77b4"),
-            autotypenumbers="convert types",
+            title=f'{token} New Monthly Supply [%]',
+            titlefont=dict(color='#1f77b4'),
+            tickfont=dict(color='#1f77b4'),
+            autotypenumbers='convert types',
             showgrid=True,
-            gridcolor="rgba(166, 166, 166, 0.35)",
+            gridcolor='rgba(166, 166, 166, 0.35)',
         ),
         yaxis2=dict(
-            title=f"{token} Annual Inflation [%]",
-            titlefont=dict(color="#d62728"),
-            tickfont=dict(color="#d62728"),
-            anchor="x",
-            overlaying="y",
-            side="right",
+            title=f'{token} Annual Inflation [%]',
+            titlefont=dict(color='#d62728'),
+            tickfont=dict(color='#d62728'),
+            anchor='x',
+            overlaying='y',
+            side='right',
         ),
         showlegend=False,
-        plot_bgcolor="white",
+        plot_bgcolor='white',
         autosize=False,
         width=800,
         height=550,
@@ -299,6 +340,6 @@ def main():
     return
 
 
-if __name__ == "__main__":
-    st.set_page_config(page_title="Supply Distribution Tracker")
+if __name__ == '__main__':
+    st.set_page_config(page_title='Supply Distribution Tracker')
     main()
