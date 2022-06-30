@@ -2,11 +2,11 @@ DATA,,,,,,
 token_name,token_symbol,start_date,start_tokens,emission_schedule,emission_type,emission_incentive
 flm,,,,,,
 DISTRIBUTION,,,,,
-entity,LAUNCHPOOL,MINT RUSH,LP TOKEN STAKING,FUSD MINTING,PERP MARGIN REWARDS
-t000,0.14,19.86,0,0,0
-t001,4.17,29.17,0.48,0,0
-t002,4.17,29.17,40,10,0
-t003,4.17,29.17,53.33,10,3.33
+entity,public sale,mint rush,lp rewards,fusd minting,perp rewards
+t000,"6,255,000.00","43,755,000.00",-,-,-
+t001,"6,255,000.00","43,755,000.00",-,-,-
+t002,"6,255,000.00","43,755,000.00","39,997,500.00","15,000,000.00",-
+t003,"6,255,000.00","43,755,000.00","79,995,000.00","15,000,000.00","4,995,000.00"
 t004,nan,nan,nan,nan,nan
 t005,nan,nan,nan,nan,nan
 t006,nan,nan,nan,nan,nan
