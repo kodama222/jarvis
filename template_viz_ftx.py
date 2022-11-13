@@ -63,7 +63,7 @@ def read_data():
 
         ## READ DATA
         # general token data
-        df_data = pd.read_csv(u, nrows=7).set_index('key')
+        df_data = pd.read_csv(u, skiprows=[0], nrows=7).set_index('key')
         dict_data = df_data['data'].to_dict()
 
         # data related to token distribution among different parties
