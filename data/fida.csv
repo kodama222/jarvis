@@ -8,7 +8,7 @@ emission_schedule,1D,,,,,
 emission_type,linear_unlock,,,,,
 emission_incentive,,,,,,
 DISTRIBUTION,,,,,,
-entity,seed,liquidity,IEO,Serum Ecosystem Incentives,team,foundation
+entity,seed,liquidity,IEO,Serum Ecosystem Incentives,team,bonfida foundation
 type,percentage,percentage,percentage,percentage,percentage,percentage
 group,investors,community,public,community,team_advisors,foundation
 emission,unlock,unlock,unlock,unlock,unlock,unlock
