@@ -43,7 +43,7 @@ def inflation(df):
 def read_data():
     global coins
 
-    coins = ['aptos', 'fida']
+    coins = ['aptos', 'fida', 'maps', 'oxy']
 
     urls = [
         f'https://raw.githubusercontent.com/kodama222/jarvis/main/data/{coin}.csv'
