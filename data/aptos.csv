@@ -10,7 +10,7 @@ emission_incentive,staking,,,,,
 DISTRIBUTION,,,,,,
 entity,Community (Aptos Foundation),Community (Aptos Labs),Core Contributors,Foundation,Investors,Staking
 type,percentage,percentage,percentage,percentage,percentage,inflationary
-group,foundation,foundation,team,foundation,investors,validators
+group,foundation,foundation,team_advisors,foundation,investors,validators
 emission,unlock,unlock,unlock,unlock,unlock,staking
 allocation,41.02,10.00,19.00,16.50,13.48,0.00
 t000,6.25,6.25,0.00,0.50,0.00,0.00

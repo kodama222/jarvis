@@ -10,7 +10,7 @@ emission_incentive,,,,,,
 DISTRIBUTION,,,,,,
 entity,seed,liquidity,IEO,Serum Ecosystem Incentives,team,foundation
 type,percentage,percentage,percentage,percentage,percentage,percentage
-group,investors,community,public,community,team,foundation
+group,investors,community,public,community,team_advisors,foundation
 emission,unlock,unlock,unlock,unlock,unlock,unlock
 allocation,9,2,0.6,10,10,68.4
 t000,0,2,0.6,2,0,0
