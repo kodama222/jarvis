@@ -5,6 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import os
 
+coins = ['fida', 'oxy', 'maps']
 
 def distribution_type(x, df_distribution, df_data):
     if df_distribution[x.name][2] == 'percentage':
@@ -41,9 +42,6 @@ def inflation(df):
 
 @st.cache
 def read_data():
-    global coins
-
-    coins = ['aptos', 'fida']
 
     urls = [
         f'https://raw.githubusercontent.com/kodama222/jarvis/main/data/{coin}.csv'
