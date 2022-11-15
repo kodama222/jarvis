@@ -46,7 +46,7 @@ def inflation(df, dict):
 def read_data():
 
     urls = [
-        f'https://raw.githubusercontent.com/kodama222/jarvis/main/data/{coin}.csv'
+        f'https://raw.githubusercontent.com/kodama222/jarvis/main/data/ftx/{coin}.csv'
         for coin in coins
     ]
 
