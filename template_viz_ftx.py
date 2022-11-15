@@ -21,21 +21,23 @@ def burn(x, df_distribution, df_data):
         return x
 
 
-def inflation(df):
+def inflation(df, dict):
+    
+    d = int(''.join(filter(str.isdigit, dict['emission_schedule'])))
 
-    s0 = df.total_monthly[0]
+    s0 = df.total[0]
     t0 = df.index[0]
     l = [0]
     j = 0
 
     for i in range(1, len(df)):
         if (df.index[i] - t0) < pd.Timedelta(days=365):
-            l.append((df.total_monthly[i] - s0) / s0 * 12 / i)
+            l.append((df.total[i] - s0) / s0 * d / i)
             j += 1
         else:
             l.append(
-                (df.total_monthly[i] - df.total_monthly[i - j])
-                / df.total_monthly[i - j]
+                (df.total[i] - df.total[i - j])
+                / df.total[i - j]
             )
     return np.array(l) * 100
 
@@ -99,12 +101,14 @@ def read_data():
         # classify entities
         df_distribution = df_distribution.drop(columns='entity')
 
-        team = df_distribution.iloc[3] == 'team'
+        team = df_distribution.iloc[3] == 'team_advisors'
         investors = df_distribution.iloc[3] == 'investor'
         public = df_distribution.iloc[3] == 'public'
         foundation = df_distribution.iloc[3] == 'foundation'
         validators = df_distribution.iloc[3] == 'validators'
         ecosystem = df_distribution.iloc[3] == 'ecosystem'
+        
+        parties = [team, investors, public, foundation, validators, ecosystem]
 
         team_df = supply[supply.columns[team.values]]
         investors_df = supply[supply.columns[investors.values]]
@@ -128,7 +132,7 @@ def read_data():
         )
         totalsupply = totalsupply.rename(
             columns={
-                0: 'team',
+                0: 'team_advisors',
                 1: 'investors',
                 2: 'public',
                 3: 'foundation',
@@ -137,7 +141,7 @@ def read_data():
             }
         )
 
-        totalsupply['total_monthly'] = totalsupply[
+        totalsupply['total'] = totalsupply[
             [
                 'team',
                 'investors',
@@ -147,9 +151,9 @@ def read_data():
                 'validators',
             ]
         ].sum(axis=1)
-        totalsupply['new_supply'] = totalsupply.total_monthly.pct_change()
+        totalsupply['new_supply'] = totalsupply.total.pct_change()
 
-        totalsupply['annual_inflation'] = inflation(totalsupply)
+        totalsupply['annual_inflation'] = inflation(totalsupply, dict_data)
 
         # create dict entry with dataframe as value and filename as key
         data_dict[f1] = df_data
@@ -157,12 +161,12 @@ def read_data():
         supply_dict[f1] = supply
         totalsupply_dict[f1] = totalsupply
 
-    return data_dict, dist_dict, supply_dict, totalsupply_dict
+    return data_dict, dist_dict, supply_dict, totalsupply_dict, parties
 
 
 def main():
 
-    data_dict, dist_dict, supply_dict, totalsupply_dict = read_data()
+    data_dict, dist_dict, supply_dict, totalsupply_dict, parties = read_data()
 
     st.markdown(
         """
@@ -176,32 +180,11 @@ def main():
     )
 
     all_initial_allo = (
-        totalsupply_dict[token]
-        .drop(
-            columns=[
-                'team',
-                'investors',
-                'public',
-                'foundation',
-                'ecosystem',
-                'validators',
-                'annual_inflation',
-                'total_monthly',
-                'new_supply',
-            ]
-        )
-        .iloc[-1]
-    )
-    parties_initial_allo = totalsupply_dict[token][
-        [
-            'team',
-            'investors',
-            'public',
-            'foundation',
-            'ecosystem',
-            'validators',
-        ]
-    ].iloc[-1]
+        dist_dict[token]
+        .iloc[3]
+    ).astype(float)
+    
+    parties_initial_allo = [all_initial_allo[all_initial_allo.index[p.values]].sum() for p in parties]
 
     option = st.sidebar.selectbox(
         'What kinda chart do you want to see?',
@@ -230,14 +213,14 @@ def main():
         fig = px.area(
             totalsupply_dict[token].drop(
                 columns=[
-                    'team',
+                    'team_advisors',
                     'investors',
                     'public',
                     'foundation',
                     'ecosystem',
                     'validators',
                     'annual_inflation',
-                    'total_monthly',
+                    'total',
                     'new_supply',
                 ]
             )
@@ -255,14 +238,14 @@ def main():
         fig = px.area(
             totalsupply_dict[token].drop(
                 columns=[
-                    'team',
+                    'team_advisors',
                     'investors',
                     'public',
                     'foundation',
                     'ecosystem',
                     'validators',
                     'annual_inflation',
-                    'total_monthly',
+                    'total',
                     'new_supply',
                 ]
             ),
@@ -291,8 +274,15 @@ def main():
         fig = go.Figure(
             data=[
                 go.Pie(
-                    labels=parties_initial_allo.index,
-                    values=parties_initial_allo.values,
+                    labels=[
+                        'Team & Advisors',
+                        'Investors',
+                        'Public',
+                        'Foundation',
+                        'Ecosystem',
+                        'Validators'
+                    ],
+                    values=parties_initial_allo,
                 )
             ]
         )
@@ -307,12 +297,12 @@ def main():
         fig = px.area(
             totalsupply_dict[token][
                 [
-                    'team',
+                    'team_advisors',
                     'investors',
                     'public',
                     'foundation',
                     'ecosystem',
-                    'validators',
+                    'validators'
                 ]
             ]
         )
@@ -322,6 +312,19 @@ def main():
             legend_title='Holders',
             plot_bgcolor='rgba(0, 0, 0, 0)',
         )
+        newnames = {
+                'team_advisors':'Team & Advisors',
+                'investors':'Investors',
+                'public':'Public',
+                'foundation':'Foundation',
+                'ecosystem':'Ecosystem',
+                'validators':'Validators'
+        }
+        fig.for_each_trace(lambda t: t.update(name = newnames[t.name],
+                                            legendgroup = newnames[t.name],
+                                            hovertemplate = t.hovertemplate.replace(t.name, newnames[t.name])
+                                            )
+                        )
 
         st.plotly_chart(fig, use_container_width=True)
 
@@ -329,7 +332,7 @@ def main():
         fig = px.area(
             totalsupply_dict[token][
                 [
-                    'team',
+                    'team_advisors',
                     'investors',
                     'public',
                     'foundation',
@@ -353,6 +356,19 @@ def main():
             height=550,
             title_x=0.4,
         )
+        newnames = {
+                'team_advisors':'Team & Advisors',
+                'investors':'Investors',
+                'public':'Public',
+                'foundation':'Foundation',
+                'ecosystem':'Ecosystem',
+                'validators':'Validators'
+        }
+        fig.for_each_trace(lambda t: t.update(name = newnames[t.name],
+                                            legendgroup = newnames[t.name],
+                                            hovertemplate = t.hovertemplate.replace(t.name, newnames[t.name])
+                                            )
+                        )        
 
         st.plotly_chart(fig, use_container_width=True)
 
