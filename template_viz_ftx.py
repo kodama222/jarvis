@@ -224,22 +224,10 @@ def main():
 
     data_dict, dist_dict, supply_dict, totalsupply_dict, parties_dict = read_data()
 
-    all_initial_allo = (
-        dist_dict[token]
-        .iloc[3]
-    ).astype(float)
-    
-    parties_initial_allo = [all_initial_allo[all_initial_allo.index[p.values]].sum() for p in parties_dict[token]]
-
-
-    st.markdown(
-        """
-    # **Token Supply Distribution**
-    """
-    )
+    st.title('Sam Tokens Supply Distribution')
 
     token = st.sidebar.selectbox(
-        'What token do you want to know more about?',
+        'What Sam token do you want to know more about?',
         [coin.upper() for coin in coins],
     )
 
@@ -252,6 +240,14 @@ def main():
     'Do you want to see the supply distribution in percentage or absolute terms?',
     ('Percentage', 'Absolute'),
     )
+
+    all_initial_allo = (
+        dist_dict[token]
+        .iloc[3]
+    ).astype(float)
+    
+    parties_initial_allo = [all_initial_allo[all_initial_allo.index[p.values]].sum() for p in parties_dict[token]]
+
 
     if option == 'All Holders':
         
