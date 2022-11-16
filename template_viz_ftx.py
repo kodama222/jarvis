@@ -42,7 +42,7 @@ def inflation(df, dict):
     return np.array(l) * 100
 
 
-@st.cache
+@st.cache(suppress_st_warning=True)
 def read_data():
 
     urls = [
@@ -54,6 +54,7 @@ def read_data():
     dist_dict = {}
     supply_dict = {}
     totalsupply_dict = {}
+    parties_dict = {}
 
     for u in urls:
 
@@ -80,11 +81,6 @@ def read_data():
             columns='entity'
         )  # set index as date
         supply = supply.astype(float)
-        """ 
-        supply = supply.apply(
-            lambda x: distribution_type(x, df_distribution, df_data)
-        )
-        """
 
         # substract burn from company treasury
         for k in supply.keys():
@@ -101,12 +97,12 @@ def read_data():
         # classify entities
         df_distribution = df_distribution.drop(columns='entity')
 
-        team = df_distribution.iloc[3] == 'team_advisors'
-        investors = df_distribution.iloc[3] == 'investor'
-        public = df_distribution.iloc[3] == 'public'
-        foundation = df_distribution.iloc[3] == 'foundation'
-        validators = df_distribution.iloc[3] == 'validators'
-        ecosystem = df_distribution.iloc[3] == 'ecosystem'
+        team = df_distribution.iloc[1] == 'team_advisors'
+        investors = df_distribution.iloc[1] == 'investor'
+        public = df_distribution.iloc[1] == 'public'
+        foundation = df_distribution.iloc[1] == 'foundation'
+        validators = df_distribution.iloc[1] == 'validators'
+        ecosystem = df_distribution.iloc[1] == 'ecosystem'
         
         parties = [team, investors, public, foundation, validators, ecosystem]
 
@@ -143,7 +139,7 @@ def read_data():
 
         totalsupply['total'] = totalsupply[
             [
-                'team',
+                'team_advisors',
                 'investors',
                 'public',
                 'foundation',
@@ -160,13 +156,14 @@ def read_data():
         dist_dict[f1] = df_distribution
         supply_dict[f1] = supply
         totalsupply_dict[f1] = totalsupply
+        parties_dict[f1] = parties
 
-    return data_dict, dist_dict, supply_dict, totalsupply_dict, parties
+    return data_dict, dist_dict, supply_dict, totalsupply_dict, parties_dict
 
 
 def main():
 
-    data_dict, dist_dict, supply_dict, totalsupply_dict, parties = read_data()
+    data_dict, dist_dict, supply_dict, totalsupply_dict, parties_dict = read_data()
 
     st.markdown(
         """
@@ -184,7 +181,7 @@ def main():
         .iloc[3]
     ).astype(float)
     
-    parties_initial_allo = [all_initial_allo[all_initial_allo.index[p.values]].sum() for p in parties]
+    parties_initial_allo = [all_initial_allo[all_initial_allo.index[p.values]].sum() for p in parties_dict[token]]
 
     option = st.sidebar.selectbox(
         'What kinda chart do you want to see?',
