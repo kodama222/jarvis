@@ -54,6 +54,7 @@ def read_data():
     dist_dict = {}
     supply_dict = {}
     totalsupply_dict = {}
+    parties_dict = {}
 
     for u in urls:
 
@@ -155,13 +156,14 @@ def read_data():
         dist_dict[f1] = df_distribution
         supply_dict[f1] = supply
         totalsupply_dict[f1] = totalsupply
+        parties_dict[f1] = parties
 
-    return data_dict, dist_dict, supply_dict, totalsupply_dict, parties
+    return data_dict, dist_dict, supply_dict, totalsupply_dict, parties_dict
 
 
 def main():
 
-    data_dict, dist_dict, supply_dict, totalsupply_dict, parties = read_data()
+    data_dict, dist_dict, supply_dict, totalsupply_dict, parties_dict = read_data()
 
     st.markdown(
         """
@@ -179,7 +181,7 @@ def main():
         .iloc[3]
     ).astype(float)
     
-    parties_initial_allo = [all_initial_allo[all_initial_allo.index[p.values]].sum() for p in parties]
+    parties_initial_allo = [all_initial_allo[all_initial_allo.index[p.values]].sum() for p in parties_dict[token]]
 
     option = st.sidebar.selectbox(
         'What kinda chart do you want to see?',
