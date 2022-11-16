@@ -5,7 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import os
 
-coins = ['fida', 'oxy', 'maps']
+coins = ['fida', 'oxy', 'maps', 'atlas', 'polis']
 
 def distribution_type(x, df_distribution, df_data):
     if df_distribution[x.name][2] == 'percentage':
@@ -165,14 +165,10 @@ def main():
 
     data_dict, dist_dict, supply_dict, totalsupply_dict, parties_dict = read_data()
 
-    st.markdown(
-        """
-    # **Token Supply Distribution**
-    """
-    )
+    st.title('Sam Tokens Supply Distribution')
 
     token = st.sidebar.selectbox(
-        'What token do you want to know more about?',
+        'What Sam token do you want to know more about?',
         [coin.upper() for coin in coins],
     )
 
