@@ -97,12 +97,12 @@ def read_data():
         # classify entities
         df_distribution = df_distribution.drop(columns='entity')
 
-        team = df_distribution.iloc[3] == 'team_advisors'
-        investors = df_distribution.iloc[3] == 'investor'
-        public = df_distribution.iloc[3] == 'public'
-        foundation = df_distribution.iloc[3] == 'foundation'
-        validators = df_distribution.iloc[3] == 'validators'
-        ecosystem = df_distribution.iloc[3] == 'ecosystem'
+        team = df_distribution.iloc[1] == 'team_advisors'
+        investors = df_distribution.iloc[1] == 'investor'
+        public = df_distribution.iloc[1] == 'public'
+        foundation = df_distribution.iloc[1] == 'foundation'
+        validators = df_distribution.iloc[1] == 'validators'
+        ecosystem = df_distribution.iloc[1] == 'ecosystem'
         
         parties = [team, investors, public, foundation, validators, ecosystem]
 
