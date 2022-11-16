@@ -311,13 +311,37 @@ def main():
 
             # stacked area chart of supply distribution
             fig = supply_distribution_area(
-                data=totalsupply_dict[token]*float(data_dict[token]['start_tokens']), 
+                data=totalsupply_dict[token].drop(
+            columns=[
+                'team_advisors',
+                'investors',
+                'public',
+                'foundation',
+                'ecosystem',
+                'validators',
+                'annual_inflation',
+                'total',
+                'new_supply',
+            ]
+        )*float(data_dict[token]['start_tokens']), 
                 token=token)
             st.plotly_chart(fig, use_container_width=True)
         
             # fractional evolution of supply distribution 
             fig = evolution_supply_dist(
-                data=totalsupply_dict[token]*float(data_dict[token]['start_tokens']), 
+                data=totalsupply_dict[token].drop(
+            columns=[
+                'team_advisors',
+                'investors',
+                'public',
+                'foundation',
+                'ecosystem',
+                'validators',
+                'annual_inflation',
+                'total',
+                'new_supply',
+            ]
+        )*float(data_dict[token]['start_tokens']), 
                 token=token)
             st.plotly_chart(fig, use_container_width=True)
             
@@ -354,77 +378,9 @@ def main():
                 token=token)
             st.plotly_chart(fig, use_container_width=True)
             
-            
-            pass
-            
-        elif pa == 'Absolute':
-            
-            pass
-         
-
-    elif option == 'Different Parties':
-
-        # plotly pie chart of final token distribution
-        fig = go.Figure(
-            data=[
-                go.Pie(
-                    labels=[
-                        'Team & Advisors',
-                        'Investors',
-                        'Public',
-                        'Foundation',
-                        'Ecosystem',
-                        'Validators'
-                    ],
-                    values=parties_initial_allo,
-                )
-            ]
-        )
-        fig.update_traces(
-            textinfo='percent+label'
-        )  # remove to show only % label on chart
-        fig.update_layout(title_text=f'{token} Allocation', title_x=0.5)
-
-        st.plotly_chart(fig, use_container_width=True)
-
-        # stacked area chart of supply distribution
-        fig = px.area(
-            totalsupply_dict[token][
-                [
-                    'team_advisors',
-                    'investors',
-                    'public',
-                    'foundation',
-                    'ecosystem',
-                    'validators'
-                ]
-            ]
-        )
-        fig.update_layout(
-            xaxis_title='Date',
-            yaxis_title='Token Supply',
-            legend_title='Holders',
-            plot_bgcolor='rgba(0, 0, 0, 0)',
-        )
-        newnames = {
-                'team_advisors':'Team & Advisors',
-                'investors':'Investors',
-                'public':'Public',
-                'foundation':'Foundation',
-                'ecosystem':'Ecosystem',
-                'validators':'Validators'
-        }
-        fig.for_each_trace(lambda t: t.update(name = newnames[t.name],
-                                            legendgroup = newnames[t.name],
-                                            hovertemplate = t.hovertemplate.replace(t.name, newnames[t.name])
-                                            )
-                        )
-
-        st.plotly_chart(fig, use_container_width=True)
-
-        # Evolution of supply distribution %
-        fig = px.area(
-            totalsupply_dict[token][
+            # fractional evolution of supply distribution 
+            fig = evolution_supply_dist(
+                data=totalsupply_dict[token][
                 [
                     'team_advisors',
                     'investors',
@@ -433,40 +389,57 @@ def main():
                     'ecosystem',
                     'validators',
                 ]
-            ],
-            title=f'{token} Supply %',
-            groupnorm='fraction',
-        )
-        fig.update_layout(
-            yaxis=dict(showgrid=True, gridcolor='rgba(166, 166, 166, 0.35)'),
-            yaxis_tickformat=',.0%',
-            xaxis=dict(showgrid=False, gridcolor='rgba(166, 166, 166, 0.35)'),
-            xaxis_title='Date',
-            yaxis_title='Token Supply',
-            legend_title='Holders',
-            plot_bgcolor='rgba(0, 0, 0, 0)',
-            autosize=False,
-            width=1000,
-            height=550,
-            title_x=0.4,
-        )
-        newnames = {
-                'team_advisors':'Team & Advisors',
-                'investors':'Investors',
-                'public':'Public',
-                'foundation':'Foundation',
-                'ecosystem':'Ecosystem',
-                'validators':'Validators'
-        }
-        fig.for_each_trace(lambda t: t.update(name = newnames[t.name],
-                                            legendgroup = newnames[t.name],
-                                            hovertemplate = t.hovertemplate.replace(t.name, newnames[t.name])
-                                            )
-                        )        
-
-        st.plotly_chart(fig, use_container_width=True)
-
-    # combined
+            ], 
+                token=token)
+            st.plotly_chart(fig, use_container_width=True)
+            
+        elif pa == 'Absolute':
+            
+                        # plotly pie chart of final token distribution
+            fig = final_distro_pie(
+                data=parties_initial_allo, 
+                labels=[
+                        'Team & Advisors',
+                        'Investors',
+                        'Public',
+                        'Foundation',
+                        'Ecosystem',
+                        'Validators'
+                    ], 
+                token=token)
+            st.plotly_chart(fig, use_container_width=True)
+            
+            # stacked area chart of supply distribution
+            fig = supply_distribution_area(
+                data=totalsupply_dict[token][
+                [
+                    'team_advisors',
+                    'investors',
+                    'public',
+                    'foundation',
+                    'ecosystem',
+                    'validators',
+                ]
+            ]*float(data_dict[token]['start_tokens']), 
+                token=token)
+            st.plotly_chart(fig, use_container_width=True)
+            
+            # fractional evolution of supply distribution 
+            fig = evolution_supply_dist(
+                data=totalsupply_dict[token][
+                [
+                    'team_advisors',
+                    'investors',
+                    'public',
+                    'foundation',
+                    'ecosystem',
+                    'validators',
+                ]
+            ]*float(data_dict[token]['start_tokens']), 
+                token=token)
+            st.plotly_chart(fig, use_container_width=True)            
+            
+    # inflation charts
     fig = go.Figure()
 
     fig.add_trace(
