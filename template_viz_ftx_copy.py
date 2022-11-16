@@ -80,11 +80,6 @@ def read_data():
             columns='entity'
         )  # set index as date
         supply = supply.astype(float)
-        """ 
-        supply = supply.apply(
-            lambda x: distribution_type(x, df_distribution, df_data)
-        )
-        """
 
         # substract burn from company treasury
         for k in supply.keys():
