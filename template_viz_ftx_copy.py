@@ -42,7 +42,7 @@ def inflation(df, dict):
     return np.array(l) * 100
 
 
-@st.cache
+@st.cache(suppress_st_warning=True)
 def read_data():
 
     urls = [
@@ -143,7 +143,7 @@ def read_data():
 
         totalsupply['total'] = totalsupply[
             [
-                'team',
+                'team_advisors',
                 'investors',
                 'public',
                 'foundation',
