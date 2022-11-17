@@ -124,7 +124,7 @@ def read_data():
 
         totalsupply['total'] = supply.sum(axis=1)
         totalsupply['new_supply'] = totalsupply.total.diff()
-        totalsupply['inflation'] = inflation(totalsupply, dict_data['emission_schedule'])
+        totalsupply['annual_inflation'] = inflation(totalsupply, dict_data['emission_schedule'])
 
         # create dict entry with dataframe as value and filename as key
         data_dict[f1] = dict_data
