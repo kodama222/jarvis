@@ -82,10 +82,10 @@ def read_data():
         investors = df_distribution.iloc[1] == 'investor'
         public = df_distribution.iloc[1] == 'public'
         foundation = df_distribution.iloc[1] == 'foundation'
-        validators = df_distribution.iloc[1] == 'validators'
         ecosystem = df_distribution.iloc[1] == 'ecosystem'
-
-        parties = [team, investors, public, foundation, validators, ecosystem]
+        validators = df_distribution.iloc[1] == 'validators'
+        
+        parties = [team, investors, public, foundation, ecosystem, validators]
 
         team_df = supply[supply.columns[team.values]]
         investors_df = supply[supply.columns[investors.values]]
