@@ -16,13 +16,13 @@ def inflation(df, emmission_schedule):
     elif emmission_schedule == '1D':
         d = 365
         
-    l = []
+    l = [0]
         
     total = df.total.to_numpy()
     diff = df.new_supply.to_numpy()
     
     for i in range(1, len(df)):
-        l.append((diff[i]-total[i-1]*d))
+        l.append((diff[i]/total[i-1]*d))
     
     return np.array(l) * 100
 
