@@ -9,10 +9,8 @@ emission_type,deflationary,,,,,,,,,,,,,
 emission_incentive,,,,,,,,,,,,,,
 DISTRIBUTION,,,,,,,,,,,,,,
 entity,Private Sale – Round 1,Private Sale – Round 2,Private Sale – Round 3,Unnamed Investors,Company,Backstop Fund,Safety Fund,FTT Liquidity Fund,Team,Advisers,Company Tokens,Ecosystem Fund,User Acquisition Fund,Burn
-descriptor,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum
-address,0xABCD....1234,0xABCD....1235,0xABCD....1236,0xABCD....1237,0xABCD....1236,0xABCD....1237,0xABCD....1238,0xABCD....1239,0xABCD....1240,0xABCD....1239,0xABCD....1239,0xABCD....1240,0xABCD....1241,0xABCD....1242
 type,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,deflationary
-group,investor,investor,investor,investor,team,foundation,foundation,foundation,team,team,team,ecosystem,ecosystem,burn
+group,investor,investor,investor,investor,team_advisors,foundation,foundation,foundation,team_advisors,team_advisors,team_advisors,ecosystem,ecosystem,burn
 emission,unlock,unlock,unlock,unlock,unlock,unlock,unlock,unlock,unlock,unlock,unlock,unlock,unlock,burn
 allocation,14.29,1.86,0.8,4.05,49.01,1.5,1.5,6,6,1.5,7.5,3,3,0
 t000,3.571428571,0.62,0.4,4.05,0,1.5,1.5,6,6,1.5,0,3,3,

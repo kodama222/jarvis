@@ -71,6 +71,7 @@ def read_data():
         # substract burn from company treasury
         if dict_data['token_symbol'] == 'FTT':
             supply.Company = supply.Company - supply.Burn
+            supply = supply.drop(columns='Burn')
         elif dict_data['token_symbol'] == 'SRM':
             pass
 
