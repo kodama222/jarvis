@@ -7,23 +7,24 @@ import os
 
 coins = ['fida', 'oxy', 'maps', 'atlas', 'polis']
 
+
 def inflation(df, emmission_schedule):
-    
+
     if emmission_schedule == '30D':
         d = 12
     elif emmission_schedule == '7D':
         d = 52
     elif emmission_schedule == '1D':
         d = 365
-        
+
     l = [0]
-        
+
     total = df.total.to_numpy()
     diff = df.new_supply.to_numpy()
-    
+
     for i in range(1, len(df)):
-        l.append((diff[i]/total[i-1]*d))
-    
+        l.append((diff[i] / total[i - 1] * d))
+
     return np.array(l) * 100
 
 
@@ -124,7 +125,9 @@ def read_data():
 
         totalsupply['total'] = supply.sum(axis=1)
         totalsupply['new_supply'] = totalsupply.total.diff()
-        totalsupply['annual_inflation'] = inflation(totalsupply, dict_data['emission_schedule'])
+        totalsupply['annual_inflation'] = inflation(
+            totalsupply, dict_data['emission_schedule']
+        )
 
         # create dict entry with dataframe as value and filename as key
         data_dict[f1] = dict_data
@@ -406,27 +409,16 @@ def main():
 
     # inflation charts
     fig = go.Figure()
-    
-    if pa == 'Absolute':
-        
-        fig.add_trace(
-            go.Bar(
-                x=totalsupply_dict[token].index,
-                y=totalsupply_dict[token]['new_supply']*data_dict[token]['start_tokens'],
-                name=f'{token} New Monthly Supply',
-            )
+
+    fig.add_trace(
+        go.Bar(
+            x=totalsupply_dict[token].index,
+            y=totalsupply_dict[token]['new_supply']
+            * data_dict[token]['start_tokens'],
+            name=f'{token} New Monthly Supply',
         )
-        
-    elif pa == 'Percentage':
-        
-        fig.add_trace(
-            go.Bar(
-                x=totalsupply_dict[token].index,
-                y=totalsupply_dict[token]['new_supply'],
-                name=f'{token} New Monthly Supply',
-            )
-        )
-        
+    )
+
     fig.add_trace(
         go.Scatter(
             x=totalsupply_dict[token].index,
