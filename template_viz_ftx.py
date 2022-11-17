@@ -406,14 +406,27 @@ def main():
 
     # inflation charts
     fig = go.Figure()
-
-    fig.add_trace(
-        go.Bar(
-            x=totalsupply_dict[token].index,
-            y=totalsupply_dict[token]['new_supply'],
-            name=f'{token} New Monthly Supply',
+    
+    if pa == 'Percentage':
+        
+        fig.add_trace(
+            go.Bar(
+                x=totalsupply_dict[token].index,
+                y=totalsupply_dict[token]['new_supply']*data_dict[token]['start_tokens'],
+                name=f'{token} New Monthly Supply',
+            )
         )
-    )
+        
+    elif pa == 'Absolute':
+        
+        fig.add_trace(
+            go.Bar(
+                x=totalsupply_dict[token].index,
+                y=totalsupply_dict[token]['new_supply'],
+                name=f'{token} New Monthly Supply',
+            )
+        )
+        
     fig.add_trace(
         go.Scatter(
             x=totalsupply_dict[token].index,
