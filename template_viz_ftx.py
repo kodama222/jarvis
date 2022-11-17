@@ -407,7 +407,7 @@ def main():
     # inflation charts
     fig = go.Figure()
     
-    if pa == 'Percentage':
+    if pa == 'Absolute':
         
         fig.add_trace(
             go.Bar(
@@ -417,7 +417,7 @@ def main():
             )
         )
         
-    elif pa == 'Absolute':
+    elif pa == 'Percentage':
         
         fig.add_trace(
             go.Bar(
