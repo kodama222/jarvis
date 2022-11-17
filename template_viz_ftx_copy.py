@@ -160,7 +160,6 @@ def read_data():
 
     return data_dict, dist_dict, supply_dict, totalsupply_dict, parties_dict
 
-
 def main():
 
     data_dict, dist_dict, supply_dict, totalsupply_dict, parties_dict = read_data()
