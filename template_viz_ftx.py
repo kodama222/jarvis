@@ -7,13 +7,6 @@ import os
 
 coins = ['fida', 'oxy', 'maps', 'atlas', 'polis']
 
-def burn(x, df_distribution, df_data):
-    if df_distribution[x.name][4] == 'burn':
-        return x
-    else:
-        return x
-
-
 def inflation(df, emmission_schedule):
     
     if emmission_schedule == '30D':
@@ -22,18 +15,15 @@ def inflation(df, emmission_schedule):
         d = 52
     elif emmission_schedule == '1D':
         d = 365
-                
-    s0 = df.total[0]
-    t0 = df.index[0]
-    l = [0]
-    j = 0
-
+        
+    l = []
+        
+    total = df.total.to_numpy()
+    diff = df.new_supply.to_numpy()
+    
     for i in range(1, len(df)):
-        if (df.index[i] - t0) < pd.Timedelta(days=365):
-            l.append((df.total[i] - s0) / s0 * d / i)
-            j += 1
-        else:
-            l.append((df.total[i] - df.total[i - j]) / df.total[i - j])
+        l.append((diff[i]-total[i-1]*d))
+    
     return np.array(l) * 100
 
 
@@ -132,22 +122,9 @@ def read_data():
             }
         )
 
-        totalsupply['total'] = totalsupply[
-            [
-                'team_advisors',
-                'investors',
-                'public',
-                'foundation',
-                'ecosystem',
-                'validators',
-            ]
-        ].sum(axis=1)
-        totalsupply['new_supply'] = totalsupply.total.pct_change()
-
-        totalsupply['annual_inflation'] = inflation(
-            totalsupply, 
-            dict_data['emission_schedule']
-        )
+        totalsupply['total'] = supply.sum(axis=1)
+        totalsupply['new_supply'] = totalsupply.total.diff()
+        totalsupply['inflation'] = inflation(totalsupply, dict_data['emission_schedule'])
 
         # create dict entry with dataframe as value and filename as key
         data_dict[f1] = dict_data
@@ -449,7 +426,7 @@ def main():
     fig.update_xaxes(tickangle=45)
     fig.update_layout(
         yaxis=dict(
-            title=f'{token} New Monthly Supply [%]',
+            title=f'{token} New Supply [%]',
             titlefont=dict(color='#1f77b4'),
             tickfont=dict(color='#1f77b4'),
             autotypenumbers='convert types',
