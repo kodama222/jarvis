@@ -5,7 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import os
 
-coins = ['fida', 'oxy', 'maps', 'atlas', 'polis', 'aptos']
+coins = ['fida', 'oxy', 'maps', 'atlas', 'polis', 'aptos', 'ftt']
 
 
 def inflation(df, emmission_schedule):
@@ -69,16 +69,10 @@ def read_data():
         supply = supply.astype(float)
 
         # substract burn from company treasury
-        for k in supply.keys():
-            if k == 'burn':
-                try:
-                    supply.treasury = supply.treasury - supply.burn
-                except:
-                    pass
-                try:
-                    supply.company = supply.company - supply.burn
-                except:
-                    pass
+        if dict_data['token_symbol'] == 'FTT':
+            supply.Company = supply.Company - supply.Burn
+        elif dict_data['token_symbol'] == 'SRM':
+            pass
 
         # classify entities
         df_distribution = df_distribution.drop(columns='entity')
