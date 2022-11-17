@@ -410,7 +410,7 @@ def main():
     fig.add_trace(
         go.Bar(
             x=totalsupply_dict[token].index,
-            y=totalsupply_dict[token]['new_supply'] * 100,
+            y=totalsupply_dict[token]['new_supply'],
             name=f'{token} New Monthly Supply',
         )
     )
