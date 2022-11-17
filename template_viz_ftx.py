@@ -7,14 +7,6 @@ import os
 
 coins = ['fida', 'oxy', 'maps', 'atlas', 'polis']
 
-
-def distribution_type(x, df_distribution, df_data):
-    if df_distribution[x.name][2] == 'percentage':
-        return x
-    elif df_distribution[x.name][2] == 'amount':
-        return x / df_data.start_tokens[0] * 100
-
-
 def burn(x, df_distribution, df_data):
     if df_distribution[x.name][4] == 'burn':
         return x
@@ -22,10 +14,15 @@ def burn(x, df_distribution, df_data):
         return x
 
 
-def inflation(df, dict):
-
-    d = int(''.join(filter(str.isdigit, dict['emission_schedule'])))
-
+def inflation(df, emmission_schedule):
+    
+    if emmission_schedule == '30D':
+        d = 12
+    elif emmission_schedule == '7D':
+        d = 52
+    elif emmission_schedule == '1D':
+        d = 365
+                
     s0 = df.total[0]
     t0 = df.index[0]
     l = [0]
@@ -147,7 +144,10 @@ def read_data():
         ].sum(axis=1)
         totalsupply['new_supply'] = totalsupply.total.pct_change()
 
-        totalsupply['annual_inflation'] = inflation(totalsupply, dict_data)
+        totalsupply['annual_inflation'] = inflation(
+            totalsupply, 
+            dict_data['emission_schedule']
+        )
 
         # create dict entry with dataframe as value and filename as key
         data_dict[f1] = dict_data
