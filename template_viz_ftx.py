@@ -5,7 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import os
 
-coins = ['fida', 'oxy', 'maps', 'atlas', 'polis', 'aptos']
+coins = ['fida', 'oxy', 'maps', 'atlas', 'polis', 'aptos', 'srm']
 
 
 def inflation(df, emmission_schedule):
