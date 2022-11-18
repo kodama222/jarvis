@@ -10,7 +10,7 @@ emission_incentive,,,,,,,,,
 DISTRIBUTION,,,,,,,,,
 entity,Private Sale,IEO and Initial Liquidity,Serum Community Fund,MAPS Community Fund,Liquidity & Token Growth,Ecosystem Partners,Project Builders,Technology & Product,Ecosystem Growth & Marketing
 type,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage,percentage
-group,investor,public,ecosystem,ecosystem,foundation,foundation,team_advisors,team_advisors,ecosystem
+group,investor,public,ecosystem,ecosystem,foundation,ecosystem,team_advisors,team_advisors,ecosystem
 emission,unlock,unlock,unlock,unlock,unlock,unlock,unlock,unlock,unlock
 allocation,5,5,20,20,5,10,15,10,10
 t000,0,5,1.5,2,0,0,0,0,1.5
