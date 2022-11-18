@@ -9,8 +9,6 @@ emission_type,inflationary,,,,,,
 emission_incentive,p2e,,,,,,
 DISTRIBUTION,,,,,,,
 entity,Public Sale,Seed,Liquidity,Treasury,Ecosystem,Team,P2E
-descriptor,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum,Lorem ipsum
-address,0xABCD....1234,0xABCD....1235,0xABCD....1236,0xABCD....1237,0xABCD....1238,0xABCD....1239,0xABCD....1240
 type,percentage,percentage,percentage,percentage,percentage,percentage,inflationary
 group,public,investors,ecosystem,foundation,ecosystem,team_advisors,ecosystem
 emission,unlock,unlock,unlock,unlock,unlock,unlock,staking

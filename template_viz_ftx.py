@@ -5,7 +5,18 @@ import plotly.express as px
 import plotly.graph_objects as go
 import os
 
-coins = ['fida', 'oxy', 'maps', 'atlas', 'polis', 'aptos', 'srm']
+coins = [
+    'ftt',
+    'srm',
+    'fida',
+    'oxy',
+    'maps',
+    'atlas',
+    'polis',
+    'aptos',
+    'gene',
+    'aury',
+]
 
 
 def inflation(df, emmission_schedule):
@@ -72,6 +83,7 @@ def read_data():
         if dict_data['token_symbol'] == 'FTT':
             supply.Company = supply.Company - supply.Burn
             supply = supply.drop(columns='Burn')
+            df_distribution = df_distribution.drop(columns='Burn')
         elif dict_data['token_symbol'] == 'SRM':
             pass
 
@@ -84,7 +96,7 @@ def read_data():
         foundation = df_distribution.iloc[1] == 'foundation'
         ecosystem = df_distribution.iloc[1] == 'ecosystem'
         validators = df_distribution.iloc[1] == 'validators'
-        
+
         parties = [team, investors, public, foundation, ecosystem, validators]
 
         team_df = supply[supply.columns[team.values]]

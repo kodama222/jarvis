@@ -8,7 +8,7 @@ emission_schedule,1D,,,
 emission_type,linear_unlock,,,
 emission_incentive,,,,
 DISTRIBUTION,,,,
-entity,private sale,public sale,team & advisors,community treasure and P2E
+entity,Private Sale,Public Sale,Team & Advisors,Community Treasure and P2E
 type,percentage,percentage,percentage,percentage
 group,investors,public,team,community
 emission,unlock,unlock,unlock,unlock
