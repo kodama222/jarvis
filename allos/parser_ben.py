@@ -3,9 +3,7 @@ import numpy as np
 import pandas as pd
 
 # read expected allocation file as dataframe
-allo = pd.read_csv(
-    '/Users/danielroyo2227/Downloads/allo_benjamin.csv'
-)
+allo = pd.read_csv('/Users/danielroyo2227/Downloads/allo_benjamin.csv')
 
 # group tokens and host in tuple
 gb = allo.groupby('Token')

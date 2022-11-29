@@ -7,6 +7,7 @@ import os
 
 coins = ['fida', 'oxy', 'maps', 'atlas', 'polis']
 
+
 def distribution_type(x, df_distribution, df_data):
     if df_distribution[x.name][2] == 'percentage':
         return x
@@ -22,7 +23,7 @@ def burn(x, df_distribution, df_data):
 
 
 def inflation(df, dict):
-    
+
     d = int(''.join(filter(str.isdigit, dict['emission_schedule'])))
 
     s0 = df.total[0]
@@ -35,10 +36,7 @@ def inflation(df, dict):
             l.append((df.total[i] - s0) / s0 * d / i)
             j += 1
         else:
-            l.append(
-                (df.total[i] - df.total[i - j])
-                / df.total[i - j]
-            )
+            l.append((df.total[i] - df.total[i - j]) / df.total[i - j])
     return np.array(l) * 100
 
 
@@ -103,7 +101,7 @@ def read_data():
         foundation = df_distribution.iloc[1] == 'foundation'
         validators = df_distribution.iloc[1] == 'validators'
         ecosystem = df_distribution.iloc[1] == 'ecosystem'
-        
+
         parties = [team, investors, public, foundation, validators, ecosystem]
 
         team_df = supply[supply.columns[team.values]]
@@ -160,9 +158,16 @@ def read_data():
 
     return data_dict, dist_dict, supply_dict, totalsupply_dict, parties_dict
 
+
 def main():
 
-    data_dict, dist_dict, supply_dict, totalsupply_dict, parties_dict = read_data()
+    (
+        data_dict,
+        dist_dict,
+        supply_dict,
+        totalsupply_dict,
+        parties_dict,
+    ) = read_data()
 
     st.title('Sam Tokens Supply Distribution')
 
@@ -171,12 +176,12 @@ def main():
         [coin.upper() for coin in coins],
     )
 
-    all_initial_allo = (
-        dist_dict[token]
-        .iloc[3]
-    ).astype(float)
-    
-    parties_initial_allo = [all_initial_allo[all_initial_allo.index[p.values]].sum() for p in parties_dict[token]]
+    all_initial_allo = (dist_dict[token].iloc[3]).astype(float)
+
+    parties_initial_allo = [
+        all_initial_allo[all_initial_allo.index[p.values]].sum()
+        for p in parties_dict[token]
+    ]
 
     option = st.sidebar.selectbox(
         'What kinda chart do you want to see?',
@@ -272,7 +277,7 @@ def main():
                         'Public',
                         'Foundation',
                         'Ecosystem',
-                        'Validators'
+                        'Validators',
                     ],
                     values=parties_initial_allo,
                 )
@@ -294,7 +299,7 @@ def main():
                     'public',
                     'foundation',
                     'ecosystem',
-                    'validators'
+                    'validators',
                 ]
             ]
         )
@@ -305,18 +310,22 @@ def main():
             plot_bgcolor='rgba(0, 0, 0, 0)',
         )
         newnames = {
-                'team_advisors':'Team & Advisors',
-                'investors':'Investors',
-                'public':'Public',
-                'foundation':'Foundation',
-                'ecosystem':'Ecosystem',
-                'validators':'Validators'
+            'team_advisors': 'Team & Advisors',
+            'investors': 'Investors',
+            'public': 'Public',
+            'foundation': 'Foundation',
+            'ecosystem': 'Ecosystem',
+            'validators': 'Validators',
         }
-        fig.for_each_trace(lambda t: t.update(name = newnames[t.name],
-                                            legendgroup = newnames[t.name],
-                                            hovertemplate = t.hovertemplate.replace(t.name, newnames[t.name])
-                                            )
-                        )
+        fig.for_each_trace(
+            lambda t: t.update(
+                name=newnames[t.name],
+                legendgroup=newnames[t.name],
+                hovertemplate=t.hovertemplate.replace(
+                    t.name, newnames[t.name]
+                ),
+            )
+        )
 
         st.plotly_chart(fig, use_container_width=True)
 
@@ -349,18 +358,22 @@ def main():
             title_x=0.4,
         )
         newnames = {
-                'team_advisors':'Team & Advisors',
-                'investors':'Investors',
-                'public':'Public',
-                'foundation':'Foundation',
-                'ecosystem':'Ecosystem',
-                'validators':'Validators'
+            'team_advisors': 'Team & Advisors',
+            'investors': 'Investors',
+            'public': 'Public',
+            'foundation': 'Foundation',
+            'ecosystem': 'Ecosystem',
+            'validators': 'Validators',
         }
-        fig.for_each_trace(lambda t: t.update(name = newnames[t.name],
-                                            legendgroup = newnames[t.name],
-                                            hovertemplate = t.hovertemplate.replace(t.name, newnames[t.name])
-                                            )
-                        )        
+        fig.for_each_trace(
+            lambda t: t.update(
+                name=newnames[t.name],
+                legendgroup=newnames[t.name],
+                hovertemplate=t.hovertemplate.replace(
+                    t.name, newnames[t.name]
+                ),
+            )
+        )
 
         st.plotly_chart(fig, use_container_width=True)
 
